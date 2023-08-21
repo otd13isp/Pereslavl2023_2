@@ -32,6 +32,7 @@
 **npm i crypto-js**
 
 В файле index.html надо проверить, что правильно указаны пути для библиотек:
+
 **<script src="node_modules/xlsx/dist/xlsx.full.min.js"></script>**
 **<script src="node_modules/crypto-js/crypto-js.js"></script>**
 
