@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>ODS encryption</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  
+  <script src="node_modules/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="node_modules/crypto-js/crypto-js.js"></script>
+
+
+</head>
+<body>
+
+<div class="container">
+  <div class="row align-items-end">
+    <div class="col-sm-4">
+        <label for="uploadedfiles" class="form-label">Выберите файлы для загрузки:</label>
+        <input class="form-control" type="file" id="uploadedfiles" multiple>	  
+    </div>
+    <div class="col-sm-8">
+	    <button type="button" class="btn btn-primary" onClick="		
+		readOdsFiles(document.getElementById('uploadedfiles'));		
+		">Загрузить</button>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-12">
+	   <div id="myout" style="width:100%;white-space:nowrap;overflow-x:auto;"></div>
+    </div>
+  </div>
+	
+  
+</div>
+
+<script>
+
+// для объявления переменных, значение которых не предполагается изменяеть, 
+// следует использовать const
+async function readOdsFiles(uf) {
+let sOut='';
+// цикл по загруженным файлам
+for(let k=0; k<uf.files.length; k++) {
+// выбор одного из загруженных файлов
+const f = uf.files[k];
+sOut += '<b>'+f.name+'</b>' + '<br>';
+// чтение данных из файла
+// ArrayBuffer() создает новый ArrayBuffer заданной длины в байтах
+const data = await f.arrayBuffer();
+const workbook = XLSX.read(data);
+// перебор листов файла
+  for(let n=0; n<workbook.SheetNames.length; n++) {
+  const curSheetName = workbook.SheetNames[n];
+  sOut += '<i><u>'+curSheetName+'</u></i>' + '<br>';  
+  const worksheet = workbook.Sheets[curSheetName];
+  const wdata = XLSX.utils.sheet_to_json(worksheet,{header:1});   
+// перебор строк листа
+    for(let i=0; i<wdata.length; i++) {
+    let s='';
+      for(let j=0; j<wdata[i].length; j++) {
+	  let sAux = wdata[i][j];
+	  let ct = encryptAES(wdata[i][j].toString()); // обязательно в строку
+	  let m = decryptAES(ct);
+      s += wdata[i][j] + '|' +
+	  ct + '|' +
+	  m + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+      }
+	sOut += s + '<br>';
+    }
+// конец перебора строк листа
+  }
+}
+// очищаем поле загрузки файла
+document.getElementById('uploadedfiles').value = '';
+// выводим результат работы программы
+document.getElementById('myout').innerHTML = sOut;
+}
+
+function encryptAES(m) {
+return CryptoJS.AES.encrypt(m, 'secret_key').toString();
+}
+
+function decryptAES(ct) {
+var bytes  = CryptoJS.AES.decrypt(ct, 'secret_key');
+return bytes.toString(CryptoJS.enc.Utf8);
+}
+
+</script>
+
+</body>
+</html>
