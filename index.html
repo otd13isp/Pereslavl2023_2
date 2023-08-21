@@ -55,10 +55,9 @@ const workbook = XLSX.read(data);
     for(let i=0; i<wdata.length; i++) {
     let s='';
       for(let j=0; j<wdata[i].length; j++) {
-	  let sAux = wdata[i][j];
 	  let ct = encryptAES(wdata[i][j].toString()); // обязательно в строку
 	  let m = decryptAES(ct);
-      s += wdata[i][j] + '|' +
+          s += wdata[i][j] + '|' +
 	  ct + '|' +
 	  m + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
       }
