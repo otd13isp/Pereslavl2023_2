@@ -5,16 +5,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> 
   
   <script src="node_modules/xlsx/dist/xlsx.full.min.js"></script>
   <script src="node_modules/crypto-js/crypto-js.js"></script>
 
-
 </head>
 <body>
-
 <div class="container">
   <div class="row align-items-end">
     <div class="col-sm-4">
@@ -32,13 +29,9 @@
     <div class="col-sm-12">
 	   <div id="myout" style="width:100%;white-space:nowrap;overflow-x:auto;"></div>
     </div>
-  </div>
-	
-  
+  </div>  
 </div>
-
 <script>
-
 // для объявления переменных, значение которых не предполагается изменяеть, 
 // следует использовать const
 async function readOdsFiles(uf) {
@@ -88,8 +81,6 @@ function decryptAES(ct) {
 var bytes  = CryptoJS.AES.decrypt(ct, 'secret_key');
 return bytes.toString(CryptoJS.enc.Utf8);
 }
-
 </script>
-
 </body>
 </html>
