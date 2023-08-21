@@ -23,11 +23,16 @@ The application is also open source with code on Github
 ## Installation
 You need to create a directory and copy index.html file there.
 From the inside of this directory install the dependencies using the following instructions:
+
 **npm i xlsx**
+
 **npm i crypto-js**
 
 In the index.html file, you need to check that the paths for the libraries are correctly specified:
+
 **<script src="node_modules/xlsx/dist/xlsx.full.min.js"></script>**
+
+
 **<script src="node_modules/crypto-js/crypto-js.js"></script>**
 
 
